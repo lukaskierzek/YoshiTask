@@ -1,4 +1,8 @@
 
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using YoshiTaskWarehouseLukaszKierzek.Server.Data;
+
 namespace YoshiTaskWarehouseLukaszKierzek.Server
 {
     public class Program
@@ -10,6 +14,18 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            }
+            );
+            builder.Services.AddDbContext<WarehouseContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDatabase"))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging();
+            }
+            );
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
