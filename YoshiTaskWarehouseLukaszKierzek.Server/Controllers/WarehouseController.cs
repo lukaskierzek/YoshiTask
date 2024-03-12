@@ -23,6 +23,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
                 .Include(e=>e.MagazynDocelowy)
                 .Include(e=>e.ListaTowarow)
                 .Include(e=>e.Etykiety)
+                .Include(e=>e.ListaTowarow)
                 .ToListAsync();
 
             return Ok(allDokumentyPrzyjecia);
