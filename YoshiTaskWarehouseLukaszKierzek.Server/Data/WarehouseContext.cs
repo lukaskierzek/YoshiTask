@@ -19,7 +19,9 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
             modelBuilder.Entity<DokumentPrzyjecia>()
                 .HasOne(dokumentPrzyjecia => dokumentPrzyjecia.Dostawca)
                 .WithMany(dostawca => dostawca.DokumentyPrzyjecia)
-                .HasForeignKey(dokumentPrzyjecia => dokumentPrzyjecia.DostawcaId);
+                .HasForeignKey(dokumentPrzyjecia => dokumentPrzyjecia.DostawcaId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
 
             modelBuilder.Entity<DokumentPrzyjecia>()
                 .HasMany(dokumentPrzyjecia => dokumentPrzyjecia.Etykiety)
@@ -29,13 +31,17 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
             modelBuilder.Entity<DokumentPrzyjecia>()
                 .HasOne(e => e.MagazynDocelowy)
                 .WithMany(e => e.DokumentyPrzyjecia)
-                .HasForeignKey(e => e.MagazynDocelowyId);
+                .HasForeignKey(e => e.MagazynDocelowyId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
 
 
             modelBuilder.Entity<DokumentPrzyjecia>()
                 .HasMany(e => e.ListaTowarow)
                 .WithOne(e => e.DokumentPrzyjecia)
-                .HasForeignKey(e=>e.DokumnetPrzyjeciaId);
+                .HasForeignKey(e=>e.DokumnetPrzyjeciaId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
 
             var dostawcaList = new List<Dostawca>
             {
