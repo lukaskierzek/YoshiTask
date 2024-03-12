@@ -111,15 +111,16 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nazwa = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Kod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DokumentPrzyjeciaId = table.Column<int>(type: "int", nullable: false),
-                    DokumnetPrzyjeciaId = table.Column<int>(type: "int", nullable: false)
+                    DokumnetPrzyjeciaId = table.Column<int>(type: "int", nullable: false),
+                    Ilosc = table.Column<int>(type: "int", nullable: false),
+                    Cena = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_towar", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_towar_dokumentPrzyjecia_DokumentPrzyjeciaId",
-                        column: x => x.DokumentPrzyjeciaId,
+                        name: "FK_towar_dokumentPrzyjecia_DokumnetPrzyjeciaId",
+                        column: x => x.DokumnetPrzyjeciaId,
                         principalTable: "dokumentPrzyjecia",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -161,7 +162,8 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                 values: new object[,]
                 {
                     { 1, 1, 1 },
-                    { 2, 1, 2 }
+                    { 2, 1, 1 },
+                    { 3, 2, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -172,6 +174,16 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                     { 1, 1 },
                     { 1, 2 },
                     { 2, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "towar",
+                columns: new[] { "Id", "Cena", "DokumnetPrzyjeciaId", "Ilosc", "Kod", "Nazwa" },
+                values: new object[,]
+                {
+                    { 1, 20.99m, 1, 2, "kod1", "Towar1" },
+                    { 2, 21.99m, 1, 4, "kod2", "Towar2" },
+                    { 3, 22.99m, 2, 5, "kod3", "Towar3" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -190,9 +202,9 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                 column: "EtykietaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_towar_DokumentPrzyjeciaId",
+                name: "IX_towar_DokumnetPrzyjeciaId",
                 table: "towar",
-                column: "DokumentPrzyjeciaId");
+                column: "DokumnetPrzyjeciaId");
         }
 
         /// <inheritdoc />

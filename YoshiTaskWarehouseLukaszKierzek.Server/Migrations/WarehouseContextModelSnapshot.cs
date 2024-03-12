@@ -220,10 +220,13 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DokumentPrzyjeciaId")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Cena")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("DokumnetPrzyjeciaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Ilosc")
                         .HasColumnType("int");
 
                     b.Property<string>("Kod")
@@ -236,9 +239,38 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DokumentPrzyjeciaId");
+                    b.HasIndex("DokumnetPrzyjeciaId");
 
                     b.ToTable("towar");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cena = 20.99m,
+                            DokumnetPrzyjeciaId = 1,
+                            Ilosc = 2,
+                            Kod = "kod1",
+                            Nazwa = "Towar1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cena = 21.99m,
+                            DokumnetPrzyjeciaId = 1,
+                            Ilosc = 4,
+                            Kod = "kod2",
+                            Nazwa = "Towar2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Cena = 22.99m,
+                            DokumnetPrzyjeciaId = 2,
+                            Ilosc = 5,
+                            Kod = "kod3",
+                            Nazwa = "Towar3"
+                        });
                 });
 
             modelBuilder.Entity("YoshiTaskWarehouseLukaszKierzek.Server.Models.DokumentPrzyjecia", b =>
@@ -283,7 +315,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                 {
                     b.HasOne("YoshiTaskWarehouseLukaszKierzek.Server.Models.DokumentPrzyjecia", "DokumentPrzyjecia")
                         .WithMany("ListaTowarow")
-                        .HasForeignKey("DokumentPrzyjeciaId")
+                        .HasForeignKey("DokumnetPrzyjeciaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
