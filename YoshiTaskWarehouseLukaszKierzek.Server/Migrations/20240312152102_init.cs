@@ -7,7 +7,7 @@
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,8 +59,8 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MagazynDocelowyId = table.Column<int>(type: "int", nullable: false),
-                    DostawcaId = table.Column<int>(type: "int", nullable: false)
+                    MagazynDocelowyId = table.Column<int>(type: "int", nullable: true),
+                    DostawcaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,13 +70,13 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                         column: x => x.DostawcaId,
                         principalTable: "dostawca",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_dokumentPrzyjecia_magazyn_MagazynDocelowyId",
                         column: x => x.MagazynDocelowyId,
                         principalTable: "magazyn",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -111,7 +111,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nazwa = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Kod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DokumnetPrzyjeciaId = table.Column<int>(type: "int", nullable: false),
+                    DokumnetPrzyjeciaId = table.Column<int>(type: "int", nullable: true),
                     Ilosc = table.Column<int>(type: "int", nullable: false),
                     Cena = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -123,7 +123,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                         column: x => x.DokumnetPrzyjeciaId,
                         principalTable: "dokumentPrzyjecia",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.InsertData(
