@@ -31,10 +31,11 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
                 .WithMany(e => e.DokumentyPrzyjecia)
                 .HasForeignKey(e => e.MagazynDocelowyId);
 
-            // TODO: Many-To-Many 'DokumentPrzyjeciaTowar'
-            //modelBuilder.Entity<DokumentPrzyjecia>()
-            //    .HasMany(e => e.ListaTowarow)
-            //    .WithOne(e => e.DokumentPrzyjecia);
+
+            modelBuilder.Entity<DokumentPrzyjecia>()
+                .HasMany(e => e.ListaTowarow)
+                .WithOne(e => e.DokumentPrzyjecia)
+                .HasForeignKey(e=>e.DokumnetPrzyjeciaId);
 
             var dostawcaList = new List<Dostawca>
             {
@@ -69,12 +70,20 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
             modelBuilder.Entity<DokumentPrzyjecia>().HasData(dokumentyPrzyjeciaList);
 
             var dokuemntyPrzyjeciaEtykietaList = new List<DokumentPrzyjeciaEtykieta>
-            { 
+            {
                 new DokumentPrzyjeciaEtykieta {DokumentPrzyjeciaId=1, EtykietaId=1},
                 new DokumentPrzyjeciaEtykieta {DokumentPrzyjeciaId=1, EtykietaId=2},
                 new DokumentPrzyjeciaEtykieta {DokumentPrzyjeciaId=2, EtykietaId=3},
             };
             modelBuilder.Entity<DokumentPrzyjeciaEtykieta>().HasData(dokuemntyPrzyjeciaEtykietaList);
+
+            var towarList = new List<Towar>
+            {
+                new Towar {Id=1, Nazwa="Towar1", Kod="kod1", Cena=20.99m, Ilosc=2, DokumnetPrzyjeciaId=1},
+                new Towar {Id=2, Nazwa="Towar2", Kod="kod2", Cena=21.99m, Ilosc=4, DokumnetPrzyjeciaId=1},
+                new Towar {Id=3, Nazwa="Towar3", Kod="kod3", Cena=22.99m, Ilosc=5, DokumnetPrzyjeciaId=2},
+            };
+            modelBuilder.Entity<Towar>().HasData(towarList);
 
             base.OnModelCreating(modelBuilder);
         }
