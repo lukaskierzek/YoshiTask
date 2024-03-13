@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YoshiTaskWarehouseLukaszKierzek.Server.Models;
+using YoshiTaskWarehouseLukaszKierzek.Server.Models.Enums;
 
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
 {
@@ -69,9 +70,9 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
 
             var dokumentyPrzyjeciaList = new List<DokumentPrzyjecia>
             {
-                new DokumentPrzyjecia {Id=1, MagazynDocelowyId=1,DostawcaId=1},
-                new DokumentPrzyjecia {Id=2, MagazynDocelowyId=1,DostawcaId=1},
-                new DokumentPrzyjecia {Id=3, MagazynDocelowyId=2,DostawcaId=2},
+                new DokumentPrzyjecia {Id=1, MagazynDocelowyId=1,DostawcaId=1, Anulowany=(int)IsCancelled.No, Zatwierdzony=(int)IsApproved.No},
+                new DokumentPrzyjecia {Id=2, MagazynDocelowyId=1,DostawcaId=1, Anulowany=(int)IsCancelled.No, Zatwierdzony=(int)IsApproved.No},
+                new DokumentPrzyjecia {Id=3, MagazynDocelowyId=2,DostawcaId=2, Anulowany=(int)IsCancelled.Yes, Zatwierdzony=(int)IsApproved.No},
             };
             modelBuilder.Entity<DokumentPrzyjecia>().HasData(dokumentyPrzyjeciaList);
 

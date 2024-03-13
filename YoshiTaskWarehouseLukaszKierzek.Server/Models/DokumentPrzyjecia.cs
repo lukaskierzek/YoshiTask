@@ -1,4 +1,6 @@
-﻿namespace YoshiTaskWarehouseLukaszKierzek.Server.Models
+﻿using YoshiTaskWarehouseLukaszKierzek.Server.Models.Enums;
+
+namespace YoshiTaskWarehouseLukaszKierzek.Server.Models
 {
     public class DokumentPrzyjecia
     {
@@ -9,5 +11,7 @@
         public int? DostawcaId {  get; set; }
         public List<Towar> ListaTowarow { get; } = [];
         public List<Etykieta> Etykiety { get; } = [];
+        public int Anulowany { get; set; } = (int)IsCancelled.No;
+        public int Zatwierdzony { get; set; } = (int)IsApproved.No;
     }
 }
