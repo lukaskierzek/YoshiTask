@@ -89,7 +89,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
             if (towar.Id != id)
                 return BadRequest();
 
-            AssingTowarValuesFromBody(updateTowar, towar);
+            AssignTowarValuesFromBody(updateTowar, towar);
 
             _context.Entry(towar).State = EntityState.Modified;
 
@@ -108,7 +108,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 
             return NoContent();
 
-            static void AssingTowarValuesFromBody(Towar updateTowar, Towar towar)
+            static void AssignTowarValuesFromBody(Towar updateTowar, Towar towar)
             {
                 towar.Nazwa = updateTowar.Nazwa;
                 towar.Kod = updateTowar.Kod;
@@ -147,6 +147,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         public async Task<ActionResult<List<Dostawca>>> GetAllDostawca()
         {
             var allDostawca = await _context.dostawca
+                .Include(e => e.DokumentyPrzyjecia)
                 .ToListAsync();
 
             return Ok(allDostawca);
@@ -158,6 +159,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         public async Task<ActionResult<Dostawca>> GetDostawcaById(int id)
         {
             var dostawcaById = await _context.dostawca
+                .Include(e => e.DokumentyPrzyjecia)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             if (dostawcaById == null)
@@ -168,16 +170,75 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         #endregion
 
         #region Dostawca POST
+        [HttpPost(WarehouseRoutes.dostawcaPOST)]
         public async Task<ActionResult<Dostawca>> PostDostawca([FromBody] Dostawca newDostawca)
         {
             await _context.dostawca.AddAsync(newDostawca);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetDostawcaById), new {id = newDostawca.Id}, newDostawca);
+            return CreatedAtAction(nameof(GetDostawcaById), new { id = newDostawca.Id }, newDostawca);
         }
         #endregion
 
-        // TODO: Add dostawca post, put, delete
+        #region Dostawca PUT
+        [HttpPut(WarehouseRoutes.dostawcaPUT)]
+        public async Task<IActionResult> PutDostawca([FromRoute] int id, [FromBody] Dostawca updateDostawca)
+        {
+            var dostawca = await _context.dostawca
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (dostawca == null)
+                return NotFound();
+
+            if (dostawca.Id != id)
+                return BadRequest();
+
+            AssignDostawcaValuesFromBody(dostawca, updateDostawca);
+
+            static void AssignDostawcaValuesFromBody(Dostawca dostawca, Dostawca updateDostawca)
+            {
+                //dostawca.Id = updateDostawca.Id;
+                dostawca.NazwaFirmy = updateDostawca.NazwaFirmy;
+                dostawca.Adres = updateDostawca.Adres;
+                //dostawca.DokumentyPrzyjecia = updateDostawca.DokumentyPrzyjecia;
+            }
+
+            _context.Entry(dostawca).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                var isAnyDostawca = _context.dostawca.Any(e => e.Id == id);
+                if (isAnyDostawca)
+                    return NotFound();
+                else
+                    throw;
+            }
+
+            return NoContent();
+        }
+        #endregion
+
+        #region Dostawca DELETE
+        [HttpDelete(WarehouseRoutes.dostawcaDELETE)]
+        public async Task<ActionResult<Dostawca>> DeleteDostawca([FromRoute] int id)
+        {
+            var dostawca = await _context.dostawca
+                .FindAsync(id);
+
+            if (dostawca == null)
+                return NotFound();
+
+            _context.dostawca.Remove(dostawca);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+        #endregion
+
         // TODO: Add dokumenty przyjec
 
         #endregion
