@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using YoshiTaskWarehouseLukaszKierzek.Server.Data;
 using YoshiTaskWarehouseLukaszKierzek.Server.Models;
+using YoshiTaskWarehouseLukaszKierzek.Server.Models.Enums;
 
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 {
@@ -17,10 +18,11 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 
         #region DokumentPrzyjecia GET, POST, PUT
 
-        [HttpGet(WarehouseRoutes.dokumentPrzyjecia)]
+        [HttpGet(WarehouseRoutes.dokumentPrzyjeciaGET)]
         public async Task<ActionResult<IEnumerable<DokumentPrzyjecia>>> GetAllDokumentPrzyjecia()
         {
             var allDokumentyPrzyjecia = await _context.dokumentPrzyjecia
+                .Where(e => e.Anulowany == (int)IsCancelled.No)
                 .Include(e => e.MagazynDocelowy)
                 .Include(e => e.ListaTowarow)
                 .Include(e => e.Etykiety)
@@ -28,6 +30,69 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
                 .ToListAsync();
 
             return Ok(allDokumentyPrzyjecia);
+        }
+
+        [HttpGet(WarehouseRoutes.dokumentPrzyjeciaById)]
+        public async Task<ActionResult<DokumentPrzyjecia>> GetDokumnetPrzyjeciaById([FromRoute] int id)
+        {
+            var dokumentPrzyjeciaById = await _context.dokumentPrzyjecia
+                .Where(e => e.Anulowany == (int)IsCancelled.No)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (dokumentPrzyjeciaById == null)
+                return NotFound();
+
+            return Ok(dokumentPrzyjeciaById);
+        }
+
+        [HttpPost(WarehouseRoutes.dokumentPrzyjeciaPOST)]
+        public async Task<ActionResult<DokumentPrzyjecia>> PostDokumentPrzyjecia([FromBody] DokumentPrzyjecia newDokumentPrzyjecia)
+        {
+            await _context.dokumentPrzyjecia.AddAsync(newDokumentPrzyjecia);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetDokumnetPrzyjeciaById), new { id = newDokumentPrzyjecia.Id }, newDokumentPrzyjecia);
+        }
+
+        [HttpPut(WarehouseRoutes.dokumentPrzyjeciaPUT)]
+        public async Task<IActionResult> PutDokumentPrzyjecia([FromRoute] int id, [FromBody] DokumentPrzyjecia updateDokumentPrzyjecia)
+        {
+            var dokumentPrzyjecia = await _context.dokumentPrzyjecia
+                .Where(e => e.Anulowany == (int)IsCancelled.No)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (dokumentPrzyjecia == null)
+                return NotFound();
+
+            if (dokumentPrzyjecia.Id != id)
+                return BadRequest();
+
+            AssignDokumentPrzyjeciaValuesFromBody(dokumentPrzyjecia, updateDokumentPrzyjecia);
+
+            _context.Entry(dokumentPrzyjecia).State = EntityState.Modified;
+
+            try
+            {
+                _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                var IsAnyDokumentPrzyjecia = _context.dokumentPrzyjecia.Any(e => e.Id == id);
+                if (IsAnyDokumentPrzyjecia)
+                    return NotFound();
+                else
+                    throw;
+            }
+
+            return NoContent();
+
+            static void AssignDokumentPrzyjeciaValuesFromBody(DokumentPrzyjecia dokumentPrzyjecia, DokumentPrzyjecia updateDokumentPrzyjecia)
+            {
+                dokumentPrzyjecia.MagazynDocelowyId = updateDokumentPrzyjecia.MagazynDocelowyId;
+                dokumentPrzyjecia.DostawcaId = updateDokumentPrzyjecia.DostawcaId;
+                dokumentPrzyjecia.Anulowany = updateDokumentPrzyjecia.Anulowany;
+                dokumentPrzyjecia.Zatwierdzony = updateDokumentPrzyjecia.Zatwierdzony;
+            }
         }
 
         #endregion
@@ -247,7 +312,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         }
         #endregion
 
-        
+
 
         #endregion
 

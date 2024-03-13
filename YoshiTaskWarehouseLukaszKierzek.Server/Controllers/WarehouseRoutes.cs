@@ -3,8 +3,17 @@
     public static class WarehouseRoutes
     {
         public const string defaultRoute = "[controller]";
-        public const string dokumentPrzyjecia = "dokument-przyjecia";
+
+        #region DokuemntPrzyjecia
+        public const string dokumentPrzyjeciaGET = "dokument-przyjecia";
+        public const string dokumentPrzyjeciaById = dokumentPrzyjeciaGET + "/{id}";
+        public const string dokumentPrzyjeciaPOST = dokumentPrzyjeciaGET;
+        public const string dokumentPrzyjeciaPUT = dokumentPrzyjeciaGET + "/{id}";
+        #endregion
+
+        #region Magazyn
         public const string magazyn = "magazyn";
+        #endregion
 
         #region Towar
         public const string towarGET = "towar";
