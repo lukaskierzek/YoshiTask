@@ -1,6 +1,93 @@
-@YoshiTaskWarehouseLukaszKierzek.Server_HostAddress = http://localhost:5123
+@hostname=localhost
+@port=7041
+@controller=warehouse
+@YoshiTaskWarehouseLukaszKierzek.Server_HostAddress = https://{{hostname}}:{{port}}/{{controller}}
 
-GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/weatherforecast/
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/magazyn
 Accept: application/json
+
+###
+
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/towar
+Accept: application/json
+
+###
+
+@TowarId = 5
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/towar/{{TowarId}}
+Accept: application/json
+
+###
+
+POST {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/towar
+Accept: text/plain
+Content-Type: application/json
+
+{
+  "nazwa": "TowarPOST",
+  "kod": "KodPOST",
+  "dokumnetPrzyjeciaId": 1,
+  "ilosc": 30,
+  "cena": 2.33
+}
+
+###
+
+@TowarId = 5
+PUT {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/towar/{{TowarId}}
+Content-Type: application/json
+
+{
+  "nazwa": "TowarPOSTPUT",
+  "kod": "KodPOST",
+  "dokumnetPrzyjeciaId": 1,
+  "ilosc": 30,
+  "cena": 2.33
+}
+
+###
+
+@TowarId = 5
+DELETE {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/towar/{{TowarId}}
+
+###
+
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca
+
+###
+
+@dostawcaId=5
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca/{{dostawcaId}}
+
+###
+
+POST {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca
+Content-Type: application/json
+
+{
+  "nazwaFirmy": "FirmaPost",
+  "adres": "AdresPost"
+}
+
+###
+
+@dostawcaId=5
+PUT {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca/{{dostawcaId}}
+Content-Type: application/json
+
+{
+  "nazwaFirmy": "FirmaPostPUT",
+  "adres": "AdresPost"
+}
+
+###
+
+@dostawcaId=5
+DELETE {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca/{{dostawcaId}}
+
+###
+
+
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia
 
 ###
