@@ -1,7 +1,7 @@
 @hostname=localhost
 @port=7041
 @controller=warehouse
-@YoshiTaskWarehouseLukaszKierzek.Server_HostAddress = https://localhost:7041
+@YoshiTaskWarehouseLukaszKierzek.Server_HostAddress = https://{{hostname}}:{{port}}/{{controller}}
 
 GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/magazyn
 Accept: application/json

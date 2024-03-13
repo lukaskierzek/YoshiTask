@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YoshiTaskWarehouseLukaszKierzek.Server.Data;
 
@@ -11,9 +12,11 @@ using YoshiTaskWarehouseLukaszKierzek.Server.Data;
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
 {
     [DbContext(typeof(WarehouseContext))]
-    partial class WarehouseContextModelSnapshot : ModelSnapshot
+    [Migration("20240313142257_UpdateDokumentPrzyjecia")]
+    partial class UpdateDokumentPrzyjecia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
