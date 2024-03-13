@@ -1,7 +1,7 @@
 @hostname=localhost
 @port=7041
 @controller=warehouse
-@YoshiTaskWarehouseLukaszKierzek.Server_HostAddress = https://{{hostname}}:{{port}}/{{controller}}
+@YoshiTaskWarehouseLukaszKierzek.Server_HostAddress = https://localhost:7041
 
 GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/magazyn
 Accept: application/json
@@ -87,7 +87,33 @@ DELETE {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca
 
 ###
 
-
 GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia
+
+###
+
+@dokumentprzyjeciaById = 4
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia/{{dokumentprzyjeciaById}}
+
+###
+
+POST {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia
+Content-Type: application/json
+
+{
+  "magazynDocelowyId": 1,
+  "dostawcaId": 1,
+  "anulowany": 0,
+  "zatwierdzony": 0
+}
+
+###
+
+@dokumentprzyjeciaPUTId = 4
+PUT {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia/{{{dokumentprzyjeciaPUTId}}
+Content-Type: application/json
+
+{
+  //DokumentPrzyjecia
+}
 
 ###
