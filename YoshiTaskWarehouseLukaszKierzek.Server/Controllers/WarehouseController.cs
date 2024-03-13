@@ -167,6 +167,16 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         }
         #endregion
 
+        #region Dostawca POST
+        public async Task<ActionResult<Dostawca>> PostDostawca([FromBody] Dostawca newDostawca)
+        {
+            await _context.dostawca.AddAsync(newDostawca);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetDostawcaById), new {id = newDostawca.Id}, newDostawca);
+        }
+        #endregion
+
         // TODO: Add dostawca post, put, delete
         // TODO: Add dokumenty przyjec
 
