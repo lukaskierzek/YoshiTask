@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using YoshiTaskWarehouseLukaszKierzek.Server.Data;
+using YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations;
+using YoshiTaskWarehouseLukaszKierzek.Server.Services.Interfaces;
 
 namespace YoshiTaskWarehouseLukaszKierzek.Server
 {
@@ -26,6 +28,8 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server
                 .EnableSensitiveDataLogging();
             }
             );
+
+            builder.Services.AddScoped<IWarehouseService, WarehouseService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

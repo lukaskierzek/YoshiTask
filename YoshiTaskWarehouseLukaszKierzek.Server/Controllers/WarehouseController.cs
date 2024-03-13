@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using YoshiTaskWarehouseLukaszKierzek.Server.Data;
 using YoshiTaskWarehouseLukaszKierzek.Server.Models;
 using YoshiTaskWarehouseLukaszKierzek.Server.Models.Enums;
+using YoshiTaskWarehouseLukaszKierzek.Server.Services.Interfaces;
 
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 {
@@ -11,9 +12,12 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
     public class WarehouseController : ControllerBase
     {
         private readonly WarehouseContext _context;
-        public WarehouseController(WarehouseContext dbContext)
+        private readonly IWarehouseService _warehouseService;
+
+        public WarehouseController(WarehouseContext dbContext, IWarehouseService warehouseService)
         {
             _context = dbContext;
+            _warehouseService = warehouseService;
         }
 
         #region DokumentPrzyjecia GET, POST, PUT
@@ -21,13 +25,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpGet(WarehouseRoutes.dokumentPrzyjeciaGET)]
         public async Task<ActionResult<IEnumerable<DokumentPrzyjecia>>> GetAllDokumentPrzyjecia()
         {
-            var allDokumentyPrzyjecia = await _context.dokumentPrzyjecia
-                .Where(e => e.Anulowany == (int)IsCancelled.No)
-                .Include(e => e.MagazynDocelowy)
-                .Include(e => e.ListaTowarow)
-                .Include(e => e.Etykiety)
-                .Include(e => e.ListaTowarow)
-                .ToListAsync();
+            var allDokumentyPrzyjecia = await _warehouseService.GetAllDokumentPrzyjecia();
 
             return Ok(allDokumentyPrzyjecia);
         }
@@ -73,7 +71,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 
             try
             {
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
