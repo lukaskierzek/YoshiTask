@@ -15,6 +15,8 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
             _context = dbContext;
         }
 
+        #region DokumentPrzyjecia GET, POST, PUT
+
         [HttpGet(WarehouseRoutes.dokumentPrzyjecia)]
         public async Task<ActionResult<IEnumerable<DokumentPrzyjecia>>> GetAllDokumentPrzyjecia()
         {
@@ -28,6 +30,10 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
             return Ok(allDokumentyPrzyjecia);
         }
 
+        #endregion
+
+        #region Magazyn GET
+
         [HttpGet(WarehouseRoutes.magazyn)]
         public async Task<ActionResult<IEnumerable<Magazyn>>> GetAllMagazyn()
         {
@@ -37,6 +43,8 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 
             return Ok(allMagazyny);
         }
+
+        #endregion
 
         #region Towar GET, POST, PUT, DELETE
 
@@ -239,7 +247,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         }
         #endregion
 
-        // TODO: Add dokumenty przyjec
+        
 
         #endregion
 
