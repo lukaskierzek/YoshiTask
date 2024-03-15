@@ -13,8 +13,8 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 })
 export class EditTowarComponent implements OnInit, OnDestroy {
   public towarById: ITowar[] = [];
-
   towarId: any;
+  towarDetail: ITowar | undefined;
 
   private putTowarSubscribtion?: Subscription;
 
@@ -22,8 +22,11 @@ export class EditTowarComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpClient, private towarService: TowarService, private route: ActivatedRoute) {
     this.model = {
-      nazwa: '',
+      nazwa: this.towarDetail?.nazwa,
       kod: '',
+      dokumnetPrzyjeciaId: 0,
+      ilosc: 0,
+      cena: 0,
     }
   }
 
@@ -35,16 +38,17 @@ export class EditTowarComponent implements OnInit, OnDestroy {
     this.getTowarById(this.towarId);
   }
 
-
   ngOnDestroy(): void {
     this.putTowarSubscribtion?.unsubscribe();
   }
 
   getTowarById(id: number) {
-    this.http.get<ITowar[]>(`https://localhost:7041/Warehouse/towar/${id}`).subscribe({
+    this.http.get<ITowar[]>(`https://localhost:7041/Warehouse/towar`).subscribe({
       next: (data: ITowar[]) => {
         this.towarById = data;
         console.log(this.towarById)
+        this.towarDetail = this.towarById.find(t=>t.id == this.towarId);
+        console.log(this.towarDetail);
       },
       error: (error) => {
         console.log(error);
@@ -63,6 +67,4 @@ export class EditTowarComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-
 }

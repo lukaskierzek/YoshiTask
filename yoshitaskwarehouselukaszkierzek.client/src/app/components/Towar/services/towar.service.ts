@@ -19,4 +19,8 @@ export class TowarService {
   editTowar(model: PutTowarRequest, id: number): Observable<void>{
     return this.http.put<void>(`https://localhost:7041/Warehouse/towar/${id}`, model);
   }
+
+  deleteTowar(id: number): Observable<void>{
+    return this.http.delete<void>(`https://localhost:7041/Warehouse/towar/${id}`);
+  }
 }

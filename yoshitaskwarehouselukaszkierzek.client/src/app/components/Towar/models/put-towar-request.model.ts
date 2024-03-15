@@ -1,4 +1,7 @@
 export interface PutTowarRequest {
-  nazwa: string;
+  nazwa?: string;
   kod: string;
+  dokumnetPrzyjeciaId: number;
+  ilosc: number;
+  cena: number;
 }

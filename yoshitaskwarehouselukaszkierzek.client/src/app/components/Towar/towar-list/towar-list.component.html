@@ -13,7 +13,7 @@
         <td>{{t.nazwa}}</td>
         <td>{{t.kod}}</td>
         <td><a [routerLink]="['/warehouse/towar/edit', t.id]"><button>Edytuj</button></a></td>
-        <td><button (click)="onDeleteClick(t.nazwa, t.kod)">Usuń</button></td>
+        <td><button (click)="onDeleteClick(t.id, t.nazwa, t.kod)">Usuń</button></td>
       </tr>
     }
   </tbody>

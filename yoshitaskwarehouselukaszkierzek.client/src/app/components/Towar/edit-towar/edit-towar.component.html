@@ -6,7 +6,7 @@
         <label for="towarName">Nazwa towaru:</label>
       </td>
       <td>
-        <input id="towarName" type="text" name="towarName" [(ngModel)]="model.nazwa">
+        <input id="towarName" type="text" name="towarName" [(ngModel)]="model.nazwa" placeholder="{{towarDetail?.nazwa}}">
       </td>
     </tr>
     <tr>
@@ -14,7 +14,31 @@
         <label for="towarCode">Kod towaru:</label>
       </td>
       <td>
-        <input id="towarCode" type="text" name="towarCode" [(ngModel)]="model.kod">
+        <input id="towarCode" type="text" name="towarCode" [(ngModel)]="model.kod" placeholder="{{towarDetail?.kod}}">
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <label for="towarDokumentPrzyjeciaId">Id dokumentu przyjęcia:</label>
+      </td>
+      <td>
+        <input id="towarDokumentPrzyjeciaId" type="number" min="0" name="towarDokuemntPrzyjeciaId" [(ngModel)]="model.dokumnetPrzyjeciaId" placeholder="{{towarDetail?.dokumnetPrzyjeciaId}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="towarPrice">Cena:</label>
+      </td>
+      <td>
+        <input id="towarPrice" type="number" min="0" step="0.01" name="towarPrice" [(ngModel)]="model.cena" placeholder="{{towarDetail?.cena}}">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="towarAmount">Ilość:</label>
+      </td>
+      <td>
+        <input id="towarAmount" type="number" min="0" name="towarAmount" [(ngModel)]="model.ilosc" placeholder="{{towarDetail?.ilosc}}">
       </td>
     </tr>
     <tr>
