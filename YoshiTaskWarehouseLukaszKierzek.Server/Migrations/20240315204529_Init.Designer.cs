@@ -12,8 +12,8 @@ using YoshiTaskWarehouseLukaszKierzek.Server.Data;
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
 {
     [DbContext(typeof(WarehouseContext))]
-    [Migration("20240313142257_UpdateDokumentPrzyjecia")]
-    partial class UpdateDokumentPrzyjecia
+    [Migration("20240315204529_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,19 +212,19 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                         {
                             Id = 1,
                             Nazwa = "Magazyn1",
-                            Symbol = "Sumbol1"
+                            Symbol = "Symbol1"
                         },
                         new
                         {
                             Id = 2,
                             Nazwa = "Magazyn2",
-                            Symbol = "Sumbol2"
+                            Symbol = "Symbol2"
                         },
                         new
                         {
                             Id = 3,
                             Nazwa = "Magazyn3",
-                            Symbol = "Sumbol3"
+                            Symbol = "Symbol3"
                         });
                 });
 

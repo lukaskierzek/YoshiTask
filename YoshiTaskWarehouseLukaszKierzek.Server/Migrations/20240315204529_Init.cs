@@ -7,7 +7,7 @@
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,7 +60,9 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MagazynDocelowyId = table.Column<int>(type: "int", nullable: true),
-                    DostawcaId = table.Column<int>(type: "int", nullable: true)
+                    DostawcaId = table.Column<int>(type: "int", nullable: true),
+                    Anulowany = table.Column<int>(type: "int", nullable: false),
+                    Zatwierdzony = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -151,19 +153,19 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                 columns: new[] { "Id", "Nazwa", "Symbol" },
                 values: new object[,]
                 {
-                    { 1, "Magazyn1", "Sumbol1" },
-                    { 2, "Magazyn2", "Sumbol2" },
-                    { 3, "Magazyn3", "Sumbol3" }
+                    { 1, "Magazyn1", "Symbol1" },
+                    { 2, "Magazyn2", "Symbol2" },
+                    { 3, "Magazyn3", "Symbol3" }
                 });
 
             migrationBuilder.InsertData(
                 table: "dokumentPrzyjecia",
-                columns: new[] { "Id", "DostawcaId", "MagazynDocelowyId" },
+                columns: new[] { "Id", "Anulowany", "DostawcaId", "MagazynDocelowyId", "Zatwierdzony" },
                 values: new object[,]
                 {
-                    { 1, 1, 1 },
-                    { 2, 1, 1 },
-                    { 3, 2, 2 }
+                    { 1, 0, 1, 1, 0 },
+                    { 2, 0, 1, 1, 0 },
+                    { 3, 1, 2, 2, 0 }
                 });
 
             migrationBuilder.InsertData(

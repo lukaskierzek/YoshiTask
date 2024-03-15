@@ -62,9 +62,9 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
 
             var magazynList = new List<Magazyn>
             {
-                new Magazyn {Id=1,Nazwa="Magazyn1", Symbol="Sumbol1"},
-                new Magazyn {Id=2,Nazwa="Magazyn2", Symbol="Sumbol2"},
-                new Magazyn {Id=3,Nazwa="Magazyn3", Symbol="Sumbol3"},
+                new Magazyn {Id=1,Nazwa="Magazyn1", Symbol="Symbol1"},
+                new Magazyn {Id=2,Nazwa="Magazyn2", Symbol="Symbol2"},
+                new Magazyn {Id=3,Nazwa="Magazyn3", Symbol="Symbol3"},
             };
             modelBuilder.Entity<Magazyn>().HasData(magazynList);
 

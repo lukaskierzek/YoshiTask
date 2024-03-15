@@ -209,19 +209,19 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Migrations
                         {
                             Id = 1,
                             Nazwa = "Magazyn1",
-                            Symbol = "Sumbol1"
+                            Symbol = "Symbol1"
                         },
                         new
                         {
                             Id = 2,
                             Nazwa = "Magazyn2",
-                            Symbol = "Sumbol2"
+                            Symbol = "Symbol2"
                         },
                         new
                         {
                             Id = 3,
                             Nazwa = "Magazyn3",
-                            Symbol = "Sumbol3"
+                            Symbol = "Symbol3"
                         });
                 });
 
