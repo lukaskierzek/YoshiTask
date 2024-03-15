@@ -12,6 +12,5 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Interfaces
         Task<Towar> FindTowarToDelete(int id);
         Task<Towar> DeleteTowar(Towar towar);
         bool AnyTowar(int id);
-
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using YoshiTaskWarehouseLukaszKierzek.Server.Data;
 using YoshiTaskWarehouseLukaszKierzek.Server.Models;
-using YoshiTaskWarehouseLukaszKierzek.Server.Models.Enums;
 using YoshiTaskWarehouseLukaszKierzek.Server.Services.Interfaces;
 
 namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
@@ -11,12 +10,10 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
     [Route(WarehouseRoutes.defaultRoute)]
     public class WarehouseController : ControllerBase
     {
-        private readonly WarehouseContext _context;
         private readonly IWarehouseService _warehouseService;
 
-        public WarehouseController(WarehouseContext dbContext, IWarehouseService warehouseService)
+        public WarehouseController(IWarehouseService warehouseService)
         {
-            _context = dbContext;
             _warehouseService = warehouseService;
         }
 
@@ -199,9 +196,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpGet(WarehouseRoutes.dostawcaGET)]
         public async Task<ActionResult<List<Dostawca>>> GetAllDostawca()
         {
-            var allDostawca = await _context.dostawca
-                .Include(e => e.DokumentyPrzyjecia)
-                .ToListAsync();
+            var allDostawca = await _warehouseService.GetAllDostawca();
 
             return Ok(allDostawca);
         }
@@ -211,9 +206,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpGet(WarehouseRoutes.dostawcaById)]
         public async Task<ActionResult<Dostawca>> GetDostawcaById(int id)
         {
-            var dostawcaById = await _context.dostawca
-                .Include(e => e.DokumentyPrzyjecia)
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var dostawcaById = await _warehouseService.GetDostawcaById(id);
 
             if (dostawcaById == null)
                 return NotFound();
@@ -226,8 +219,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpPost(WarehouseRoutes.dostawcaPOST)]
         public async Task<ActionResult<Dostawca>> PostDostawca([FromBody] Dostawca newDostawca)
         {
-            await _context.dostawca.AddAsync(newDostawca);
-            await _context.SaveChangesAsync();
+            await _warehouseService.PostDostawca(newDostawca);
 
             return CreatedAtAction(nameof(GetDostawcaById), new { id = newDostawca.Id }, newDostawca);
         }
@@ -237,8 +229,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpPut(WarehouseRoutes.dostawcaPUT)]
         public async Task<IActionResult> PutDostawca([FromRoute] int id, [FromBody] Dostawca updateDostawca)
         {
-            var dostawca = await _context.dostawca
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var dostawca = await _warehouseService.GetDostawcaById(id);
 
             if (dostawca == null)
                 return NotFound();
@@ -256,15 +247,13 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
                 //dostawca.DokumentyPrzyjecia = updateDostawca.DokumentyPrzyjecia;
             }
 
-            _context.Entry(dostawca).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _warehouseService.PutDostawca(dostawca);
             }
             catch (DbUpdateConcurrencyException)
             {
-                var isAnyDostawca = _context.dostawca.Any(e => e.Id == id);
+                var isAnyDostawca = _warehouseService.AnyDostawca(id);
                 if (isAnyDostawca)
                     return NotFound();
                 else
@@ -279,22 +268,17 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpDelete(WarehouseRoutes.dostawcaDELETE)]
         public async Task<ActionResult<Dostawca>> DeleteDostawca([FromRoute] int id)
         {
-            var dostawca = await _context.dostawca
-                .FindAsync(id);
+            var dostawca = await _warehouseService.FindDostawcaToDelete(id);
 
             if (dostawca == null)
                 return NotFound();
 
-            _context.dostawca.Remove(dostawca);
-            await _context.SaveChangesAsync();
+            await _warehouseService.DeleteDostawca(dostawca);
 
             return NoContent();
         }
         #endregion
 
-
-
         #endregion
-
     }
 }

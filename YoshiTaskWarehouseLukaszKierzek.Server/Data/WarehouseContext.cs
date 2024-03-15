@@ -30,17 +30,17 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Data
                 .UsingEntity<DokumentPrzyjeciaEtykieta>();
 
             modelBuilder.Entity<DokumentPrzyjecia>()
-                .HasOne(e => e.MagazynDocelowy)
-                .WithMany(e => e.DokumentyPrzyjecia)
-                .HasForeignKey(e => e.MagazynDocelowyId)
+                .HasOne(dokumentPrzyjecia => dokumentPrzyjecia.MagazynDocelowy)
+                .WithMany(magazyn => magazyn.DokumentyPrzyjecia)
+                .HasForeignKey(dokumentPrzyjecia => dokumentPrzyjecia.MagazynDocelowyId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired(false);
 
 
             modelBuilder.Entity<DokumentPrzyjecia>()
-                .HasMany(e => e.ListaTowarow)
-                .WithOne(e => e.DokumentPrzyjecia)
-                .HasForeignKey(e=>e.DokumnetPrzyjeciaId)
+                .HasMany(dokumentPrzyjecia => dokumentPrzyjecia.ListaTowarow)
+                .WithOne(towar => towar.DokumentPrzyjecia)
+                .HasForeignKey(towar => towar.DokumnetPrzyjeciaId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired(false);
 

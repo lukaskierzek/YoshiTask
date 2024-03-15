@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using YoshiTaskWarehouseLukaszKierzek.Server.Data;
 using YoshiTaskWarehouseLukaszKierzek.Server.Models;
 using YoshiTaskWarehouseLukaszKierzek.Server.Models.Enums;
@@ -16,14 +15,16 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations
             _context = dbContext;
         }
 
+        #region DokumentPrzyjecia
+
         public async Task<IEnumerable<DokumentPrzyjecia>> GetAllDokumentPrzyjecia()
         {
             var dokumentyPrzyjecia = await _context.dokumentPrzyjecia
-                .Where(e => e.Anulowany == (int)IsCancelled.No)
-                .Include(e => e.MagazynDocelowy)
-                .Include(e => e.ListaTowarow)
-                .Include(e => e.Etykiety)
-                .Include(e => e.ListaTowarow)
+                .Where(dokumentyPrzyjecia => dokumentyPrzyjecia.Anulowany == (int)IsCancelled.No)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.MagazynDocelowy)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.ListaTowarow)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.Etykiety)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.ListaTowarow)
                 .ToListAsync();
 
             return dokumentyPrzyjecia;
@@ -32,8 +33,8 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations
         public async Task<DokumentPrzyjecia> GetDokumnetPrzyjeciaById(int id)
         {
             var dokumentPrzyjeciaById = await _context.dokumentPrzyjecia
-                .Where(e => e.Anulowany == (int)IsCancelled.No)
-                .FirstOrDefaultAsync(e => e.Id == id);
+                .Where(dokumentyPrzyjecia => dokumentyPrzyjecia.Anulowany == (int)IsCancelled.No)
+                .FirstOrDefaultAsync(dokumentyPrzyjecia => dokumentyPrzyjecia.Id == id);
 
             return dokumentPrzyjeciaById;
         }
@@ -55,16 +56,24 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations
         }
 
         public bool AnyDokuemntPrzyjecia(int id) =>
-            _context.dokumentPrzyjecia.Any(e => e.Id == id);
+            _context.dokumentPrzyjecia.Any(dokumentyPrzyjecia => dokumentyPrzyjecia.Id == id);
+
+        #endregion
+
+        #region Magazyn
 
         public async Task<IEnumerable<Magazyn>> GetAllMagazyn()
         {
             var allMagazyny = await _context.magazyn
-                .Include(e => e.DokumentyPrzyjecia)
+                .Include(magazyn => magazyn.DokumentyPrzyjecia)
                 .ToListAsync();
 
             return allMagazyny;
         }
+
+        #endregion
+
+        #region Towar
 
         public async Task<IEnumerable<Towar>> GetAllTowar()
         {
@@ -77,7 +86,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations
         public async Task<Towar> GetTowarById(int id)
         {
             var towarById = await _context.towar
-                .FirstOrDefaultAsync(e => e.Id == id);
+                .FirstOrDefaultAsync(towar => towar.Id == id);
 
             return towarById;
         }
@@ -116,9 +125,72 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations
 
         public bool AnyTowar(int id)
         {
-            var isAnyTowar = _context.towar.Any(e => e.Id == id);
+            var isAnyTowar = _context.towar.Any(towar => towar.Id == id);
 
             return isAnyTowar;
         }
+
+        #endregion
+
+        #region Dostawca
+
+        public async Task<IEnumerable<Dostawca>> GetAllDostawca()
+        {
+            var allDostawca = await _context.dostawca
+                .Include(dostawca => dostawca.DokumentyPrzyjecia)
+                .ToListAsync();
+
+            return allDostawca;
+        }
+
+        public async Task<Dostawca> GetDostawcaById(int id)
+        {
+            var dostawcaById = await _context.dostawca
+                .Include(dostawca => dostawca.DokumentyPrzyjecia)
+                .FirstOrDefaultAsync(dostawca => dostawca.Id == id);
+
+            return dostawcaById;
+        }
+
+        public async Task<Dostawca> PostDostawca(Dostawca dostawca)
+        {
+            await _context.dostawca.AddAsync(dostawca);
+            await _context.SaveChangesAsync();
+
+            return dostawca;
+        }
+
+        public async Task<Dostawca> PutDostawca(Dostawca dostawca)
+        {
+            _context.Entry(dostawca).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return dostawca;
+        }
+
+        public async Task<Dostawca> FindDostawcaToDelete(int id)
+        {
+            var dostawca = await _context.dostawca
+                .FindAsync(id);
+
+            return dostawca;
+        }
+
+        public async Task<Dostawca> DeleteDostawca(Dostawca dostawca)
+        {
+            _context.dostawca.Remove(dostawca);
+            await _context.SaveChangesAsync();
+
+            return dostawca;
+        }
+
+        public bool AnyDostawca(int id)
+        {
+            var isAnyDostawca = _context.dostawca.Any(dostawca => dostawca.Id == id);
+
+            return isAnyDostawca;
+        }
+
+        #endregion
     }
 }
