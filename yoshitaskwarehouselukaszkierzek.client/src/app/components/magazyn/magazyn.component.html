@@ -1,0 +1,17 @@
+<h1>Lista magazynów</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Nazwa</th>
+      <th>Symbol</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (m of magazyn; track $index){
+      <tr>
+        <td>{{m.nazwa}}</td>
+        <td>{{m.symbol}}</td>
+      </tr>
+    }
+  </tbody>
+</table>

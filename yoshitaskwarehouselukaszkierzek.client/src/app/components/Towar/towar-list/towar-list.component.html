@@ -1,0 +1,22 @@
+<h1>Lista towarów</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Nazwa</th>
+      <th>Kod</th>
+      <th colspan="2">Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (t of towar; track $index){
+      <tr>
+        <td>{{t.nazwa}}</td>
+        <td>{{t.kod}}</td>
+        <td><a [routerLink]="['/warehouse/towar/edit', t.id]"><button>Edytuj</button></a></td>
+        <td><button (click)="onDeleteClick(t.nazwa, t.kod)">Usuń</button></td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<a [routerLink]="['/warehouse/towar/add']"><button>Dodaj nowy Towar</button></a>

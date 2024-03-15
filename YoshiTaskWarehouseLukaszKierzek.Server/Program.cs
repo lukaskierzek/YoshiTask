@@ -46,6 +46,13 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(options =>
+                options.WithOrigins("https://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()
+            );
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
