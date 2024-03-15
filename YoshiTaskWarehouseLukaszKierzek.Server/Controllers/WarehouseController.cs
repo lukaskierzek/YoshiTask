@@ -33,9 +33,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpGet(WarehouseRoutes.dokumentPrzyjeciaById)]
         public async Task<ActionResult<DokumentPrzyjecia>> GetDokumnetPrzyjeciaById([FromRoute] int id)
         {
-            var dokumentPrzyjeciaById = await _context.dokumentPrzyjecia
-                .Where(e => e.Anulowany == (int)IsCancelled.No)
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var dokumentPrzyjeciaById = await _warehouseService.GetDokumnetPrzyjeciaById(id);
 
             if (dokumentPrzyjeciaById == null)
                 return NotFound();
@@ -46,8 +44,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpPost(WarehouseRoutes.dokumentPrzyjeciaPOST)]
         public async Task<ActionResult<DokumentPrzyjecia>> PostDokumentPrzyjecia([FromBody] DokumentPrzyjecia newDokumentPrzyjecia)
         {
-            await _context.dokumentPrzyjecia.AddAsync(newDokumentPrzyjecia);
-            await _context.SaveChangesAsync();
+            await _warehouseService.PostDokumentPrzyjecia(newDokumentPrzyjecia);
 
             return CreatedAtAction(nameof(GetDokumnetPrzyjeciaById), new { id = newDokumentPrzyjecia.Id }, newDokumentPrzyjecia);
         }
@@ -55,9 +52,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpPut(WarehouseRoutes.dokumentPrzyjeciaPUT)]
         public async Task<IActionResult> PutDokumentPrzyjecia([FromRoute] int id, [FromBody] DokumentPrzyjecia updateDokumentPrzyjecia)
         {
-            var dokumentPrzyjecia = await _context.dokumentPrzyjecia
-                .Where(e => e.Anulowany == (int)IsCancelled.No)
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var dokumentPrzyjecia = await _warehouseService.GetDokumnetPrzyjeciaById(id);
 
             if (dokumentPrzyjecia == null)
                 return NotFound();
@@ -67,15 +62,13 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 
             AssignDokumentPrzyjeciaValuesFromBody(dokumentPrzyjecia, updateDokumentPrzyjecia);
 
-            _context.Entry(dokumentPrzyjecia).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _warehouseService.PutDokumentPrzyjeciaSave(dokumentPrzyjecia);
             }
             catch (DbUpdateConcurrencyException)
             {
-                var IsAnyDokumentPrzyjecia = _context.dokumentPrzyjecia.Any(e => e.Id == id);
+                var IsAnyDokumentPrzyjecia = _warehouseService.AnyDokuemntPrzyjecia(id);
                 if (IsAnyDokumentPrzyjecia)
                     return NotFound();
                 else
@@ -100,9 +93,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpGet(WarehouseRoutes.magazyn)]
         public async Task<ActionResult<IEnumerable<Magazyn>>> GetAllMagazyn()
         {
-            var allMagazyny = await _context.magazyn
-                .Include(e => e.DokumentyPrzyjecia)
-                .ToListAsync();
+            var allMagazyny = await _warehouseService.GetAllMagazyn();
 
             return Ok(allMagazyny);
         }
@@ -115,10 +106,9 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpGet(WarehouseRoutes.towarGET)]
         public async Task<ActionResult<IEnumerable<Towar>>> GetAllTowar()
         {
-            var allToraw = await _context.towar
-                .ToListAsync();
+            var allTowar = await _warehouseService.GetAllTowar();
 
-            return Ok(allToraw);
+            return Ok(allTowar);
         }
         #endregion
 
@@ -126,8 +116,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpGet(WarehouseRoutes.towarById)]
         public async Task<ActionResult<Towar>> GetTowarById([FromRoute] int id)
         {
-            var towarById = await _context.towar
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var towarById = await _warehouseService.GetTowarById(id);
 
             if (towarById == null)
                 return NotFound();
@@ -140,8 +129,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpPost(WarehouseRoutes.towarPOST)]
         public async Task<ActionResult<Towar>> PostTowar([FromBody] Towar newTowar)
         {
-            await _context.towar.AddAsync(newTowar);
-            await _context.SaveChangesAsync();
+            await _warehouseService.PostTowar(newTowar);
 
             return CreatedAtAction(nameof(GetTowarById), new { id = newTowar.Id }, newTowar);
         }
@@ -151,8 +139,7 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpPut(WarehouseRoutes.towarPUT)]
         public async Task<IActionResult> PutTowar([FromRoute] int id, [FromBody] Towar updateTowar)
         {
-            var towar = await _context.towar
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var towar = await _warehouseService.GetTowarById(id);
 
             if (towar == null)
                 return NotFound();
@@ -162,15 +149,13 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
 
             AssignTowarValuesFromBody(updateTowar, towar);
 
-            _context.Entry(towar).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _warehouseService.PutTowar(towar);
             }
             catch (DbUpdateConcurrencyException)
             {
-                var isAnyTowar = _context.towar.Any(e => e.Id == id);
+                var isAnyTowar = _warehouseService.AnyTowar(id);
                 if (isAnyTowar)
                     return NotFound();
                 else
@@ -195,17 +180,14 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Controllers
         [HttpDelete(WarehouseRoutes.towarDELETE)]
         public async Task<IActionResult> DeleteTowar([FromRoute] int id)
         {
-            var towar = await _context.towar
-                .FindAsync(id);
+            var towar = await _warehouseService.FindTowarToDelete(id);
 
             if (towar == null)
                 return NotFound();
 
-            _context.towar.Remove(towar);
-            await _context.SaveChangesAsync();
+            await _warehouseService.DeleteTowar(towar);
 
             return NoContent();
-
         }
         #endregion
 

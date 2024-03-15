@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using YoshiTaskWarehouseLukaszKierzek.Server.Models;
-
-namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Interfaces
+﻿namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Interfaces
 {
-    public interface IWarehouseService
+    public interface IWarehouseService : IDokumentPrzyjeca, IMagazyn, ITowar
     {
-        Task<IEnumerable<DokumentPrzyjecia>> GetAllDokumentPrzyjecia();
+
     }
 }
