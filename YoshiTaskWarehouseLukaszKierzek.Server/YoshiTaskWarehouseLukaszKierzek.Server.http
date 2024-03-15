@@ -52,16 +52,16 @@ DELETE {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/towar/{{TowarId}}
 
 ###
 
-GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dostawca
 
 ###
 
 @dostawcaId=5
-GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca/{{dostawcaId}}
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dostawca/{{dostawcaId}}
 
 ###
 
-POST {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca
+POST {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dostawca
 Content-Type: application/json
 
 {
@@ -72,7 +72,7 @@ Content-Type: application/json
 ###
 
 @dostawcaId=5
-PUT {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca/{{dostawcaId}}
+PUT {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dostawca/{{dostawcaId}}
 Content-Type: application/json
 
 {
@@ -83,20 +83,20 @@ Content-Type: application/json
 ###
 
 @dostawcaId=5
-DELETE {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dostawca/{{dostawcaId}}
+DELETE {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dostawca/{{dostawcaId}}
 
 ###
 
-GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dokument-przyjecia
 
 ###
 
 @dokumentprzyjeciaById = 4
-GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia/{{dokumentprzyjeciaById}}
+GET {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dokument-przyjecia/{{dokumentprzyjeciaById}}
 
 ###
 
-POST {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia
+POST {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dokument-przyjecia
 Content-Type: application/json
 
 {
@@ -109,7 +109,7 @@ Content-Type: application/json
 ###
 
 @dokumentprzyjeciaPUTId = 4
-PUT {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/warehouse/dokument-przyjecia/{{{dokumentprzyjeciaPUTId}}
+PUT {{YoshiTaskWarehouseLukaszKierzek.Server_HostAddress}}/dokument-przyjecia/{{{dokumentprzyjeciaPUTId}}
 Content-Type: application/json
 
 {
