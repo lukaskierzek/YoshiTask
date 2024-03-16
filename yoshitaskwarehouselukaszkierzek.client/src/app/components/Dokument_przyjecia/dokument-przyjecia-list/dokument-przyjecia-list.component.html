@@ -1,0 +1,69 @@
+<h1>Lista dokumentów Przyjęcia</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Magazyn docelowy</th>
+    <th>Dostawca</th>
+    <th>Lista towarów</th>
+    <th>Etykiety</th>
+    <th>Zatwierdzony</th>
+    <th colspan="3">Akcje</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (d of dokumnetPrzyjecia; track $index) {
+      <tr>
+        <td>
+          <p>Nazwa: {{ d['magazynDocelowy'].nazwa }}</p>
+          <p>Symbol: {{ d['magazynDocelowy'].symbol }}</p>
+        </td>
+        <td>
+          <p>Firma: {{ d['dostawca'].nazwaFirmy }}</p>
+          <p>Adres: {{ d['dostawca'].adres }}</p>
+        </td>
+        <td>
+          @for (t of d.listaTowarow; track $index) {
+            <p>Nazwa: {{ t.nazwa }}</p>
+            <p>Koda: {{ t.kod }}</p>
+            <p>Ilość: {{ t.ilosc }}</p>
+            <p>Cena za sztuke: {{ t.cena }}</p>
+            <hr>
+          }
+        </td>
+        <td>
+          @for (e of d.etykiety; track $index) {
+            <p>Nazwa: {{ e.nazwa }}</p>
+            <hr>
+          }
+        </td>
+        <td>
+          @if (d.zatwierdzony === 0) {
+            Nie
+          } @else {
+            Tak
+          }
+        </td>
+        <td>
+          @if (d.zatwierdzony === 0) {
+            <a [routerLink]="['/warehouse/dokument-przyjecia/edit', ]">
+            <button>Edytuj</button>
+          </a>
+          } @else {
+            <p>Nie można edytować zatwierdzonych dokumentów</p>
+          }
+
+        </td>
+        <td>
+          <button (click)="onCancelClick(d.id)">Anuluj dokument</button>
+        </td>
+        <td>
+          <button (click)="onConfirmClick(d.id)">Zatwierdź dokument</button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<a [routerLink]="['/warehouse/dokument-przyjecia/add']">
+  <button>Dodaj nowy dokument</button>
+</a>

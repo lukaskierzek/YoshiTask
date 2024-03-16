@@ -10,6 +10,11 @@ import {TowarListComponent} from './components/Towar/towar-list/towar-list.compo
 import {AddTowarComponent} from './components/Towar/add-towar/add-towar.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { EditTowarComponent } from './components/Towar/edit-towar/edit-towar.component';
+import { DokumentPrzyjeciaListComponent } from './components/Dokument_przyjecia/dokument-przyjecia-list/dokument-przyjecia-list.component';
+import {DostawcyListComponent} from "./components/dostawcy/dostawcy-list/dostawcy-list.component";
+import { AddDostawcyComponent } from './components/dostawcy/add-dostawcy/add-dostawcy.component';
+import { EditDostawcyComponent } from './components/dostawcy/edit-dostawcy/edit-dostawcy.component';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +23,11 @@ import { EditTowarComponent } from './components/Towar/edit-towar/edit-towar.com
     MagazynComponent,
     TowarListComponent,
     AddTowarComponent,
-    EditTowarComponent
+    EditTowarComponent,
+    DokumentPrzyjeciaListComponent,
+    DostawcyListComponent,
+    AddDostawcyComponent,
+    EditDostawcyComponent,
   ],
   imports: [
     BrowserModule,

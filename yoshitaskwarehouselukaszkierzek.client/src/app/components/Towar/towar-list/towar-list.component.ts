@@ -30,7 +30,7 @@ export class TowarListComponent implements OnInit, OnDestroy {
     this.http.get<ITowar[]>(this.towarURL).subscribe({
       next: (data: ITowar[]) => {
         this.towar = data;
-        console.log(this.towar)
+        console.log(this.towar);
       },
       error: (error) => {
         console.log(error);

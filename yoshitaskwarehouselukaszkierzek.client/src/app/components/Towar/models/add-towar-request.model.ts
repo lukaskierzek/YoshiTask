@@ -1,4 +1,4 @@
-export interface AddTowarRequest {
+export interface IAddTowarRequest {
   nazwa: string;
   kod: string;
 }

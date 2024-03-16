@@ -1,0 +1,26 @@
+<p>Dodaj nowego dostawce</p>
+<form #form="ngForm" (ngSubmit)="onFormSubmit()">
+  <table>
+    <tr>
+      <td>
+        <label for="dostawcaName">Nazwa dostawcy:</label>
+      </td>
+      <td>
+        <input id="dostawcaName" type="text" name="dostawcaName" [(ngModel)]="model.nazwaFirmy">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="dostawcaAddress">Adres dostawcy:</label>
+      </td>
+      <td>
+        <input id="dostawcaAddress" type="text" name="dostawcaAddress" [(ngModel)]="model.adres">
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2">
+        <button type="submit">Zapisz</button>
+      </th>
+    </tr>
+  </table>
+</form>

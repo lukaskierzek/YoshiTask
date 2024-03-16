@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {AddTowarRequest} from "../models/add-towar-request.model";
+import {IAddTowarRequest} from "../models/add-towar-request.model";
 import {TowarService} from "../services/towar.service";
 import {Subscription} from "rxjs";
 
@@ -8,12 +8,12 @@ import {Subscription} from "rxjs";
   templateUrl: './add-towar.component.html',
   styleUrl: './add-towar.component.css'
 })
-export class AddTowarComponent implements OnDestroy{
+export class AddTowarComponent implements OnDestroy {
 
-  model: AddTowarRequest;
+  model: IAddTowarRequest;
   private addTowarSubscribtion?: Subscription;
 
-  constructor(private towarService: TowarService ) {
+  constructor(private towarService: TowarService) {
     this.model = {
       nazwa: '',
       kod: ''
@@ -21,11 +21,11 @@ export class AddTowarComponent implements OnDestroy{
   }
 
   ngOnDestroy(): void {
-        this.addTowarSubscribtion?.unsubscribe();
-    }
+    this.addTowarSubscribtion?.unsubscribe();
+  }
 
-  onFormSubmit(){
-    this.addTowarSubscribtion =  this.towarService.addTowar(this.model)
+  onFormSubmit() {
+    this.addTowarSubscribtion = this.towarService.addTowar(this.model)
       .subscribe({
         next: (response) => {
           alert(`Dodano ${this.model.nazwa}`)

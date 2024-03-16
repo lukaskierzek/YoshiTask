@@ -1,0 +1,22 @@
+<h1>Lista dostawców</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Nazwa</th>
+      <th>Adres</th>
+      <th colspan="2">Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (d of dostawca; track $index){
+      <tr>
+        <td>{{d.nazwaFirmy}}</td>
+        <td>{{d.adres}}</td>
+        <td><a [routerLink]="['/warehouse/dostawca/edit', d.id]"><button>Edytuj</button></a></td>
+        <td><button (click)="onDeleteClick(d.id, d.nazwaFirmy)">Usuń</button></td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<a [routerLink]="['/warehouse/dostawca/add']"><button>Dodaj nowego dostawce</button></a>

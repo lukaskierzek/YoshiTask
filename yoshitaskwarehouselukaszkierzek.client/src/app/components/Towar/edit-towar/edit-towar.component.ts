@@ -3,7 +3,7 @@ import {ITowar} from "../models/interface-towar.model";
 import {HttpClient} from "@angular/common/http";
 import {Subscription} from "rxjs";
 import {TowarService} from "../services/towar.service";
-import {PutTowarRequest} from "../models/put-towar-request.model";
+import {IPutTowarRequest} from "../models/put-towar-request.model";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 
 @Component({
@@ -18,7 +18,7 @@ export class EditTowarComponent implements OnInit, OnDestroy {
 
   private putTowarSubscribtion?: Subscription;
 
-  model: PutTowarRequest;
+  model: IPutTowarRequest;
 
   constructor(private http: HttpClient, private towarService: TowarService, private route: ActivatedRoute) {
     this.model = {
