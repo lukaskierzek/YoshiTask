@@ -22,9 +22,9 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations
             var dokumentyPrzyjecia = await _context.dokumentPrzyjecia
                 .Where(dokumentyPrzyjecia => dokumentyPrzyjecia.Anulowany == (int)IsCancelled.No)
                 .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.MagazynDocelowy)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.Dostawca)
                 .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.ListaTowarow)
                 .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.Etykiety)
-                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.ListaTowarow)
                 .ToListAsync();
 
             return dokumentyPrzyjecia;
@@ -34,6 +34,10 @@ namespace YoshiTaskWarehouseLukaszKierzek.Server.Services.Implementations
         {
             var dokumentPrzyjeciaById = await _context.dokumentPrzyjecia
                 .Where(dokumentyPrzyjecia => dokumentyPrzyjecia.Anulowany == (int)IsCancelled.No)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.MagazynDocelowy)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.Dostawca)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.ListaTowarow)
+                .Include(dokumentyPrzyjecia => dokumentyPrzyjecia.Etykiety)
                 .FirstOrDefaultAsync(dokumentyPrzyjecia => dokumentyPrzyjecia.Id == id);
 
             return dokumentPrzyjeciaById;
